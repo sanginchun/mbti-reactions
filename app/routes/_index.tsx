@@ -20,6 +20,7 @@ export default function Index() {
         <p className="flex-1 px-3">
           <input
             required
+            minLength={5}
             maxLength={30}
             placeholder="예) 오늘 기분이 별로여서 쇼핑했어"
             type="text"
@@ -34,7 +35,7 @@ export default function Index() {
           전송
         </button>
       </Form>
-      <p className="mt-10 text-gray-400">최대 30자까지 입력할 수 있음</p>
+      <p className="mt-10 text-gray-400">최소 5자, 최대 30자로 입력</p>
     </main>
   );
 }
