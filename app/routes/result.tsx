@@ -15,7 +15,7 @@ export default function Result() {
   const actionData = useActionData<typeof action>();
   const navigate = useNavigate();
   const [reactions, setReactions] = useState('');
-  const isFetching = useRef(false);
+  const isFetchStarted = useRef(false);
   const ctrl = useRef(new AbortController());
   const [isDone, setIsDone] = useState(false);
 
@@ -25,11 +25,11 @@ export default function Result() {
       return;
     }
 
-    if (isFetching.current === true) {
+    if (isFetchStarted.current === true) {
       return;
     }
 
-    isFetching.current = true;
+    isFetchStarted.current = true;
 
     fetchEventSource('/gpt', {
       method: 'POST',
@@ -47,6 +47,11 @@ export default function Result() {
           setReactions((prev) => prev + message);
         }
       },
+      onerror: () => {
+        setIsDone(true);
+        setReactions('오류가 발생했습니다. 잠시 후 다시 시도하세요.');
+      },
+      openWhenHidden: true,
     });
   }, [actionData?.message, navigate]);
 
