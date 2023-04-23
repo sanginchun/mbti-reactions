@@ -21,5 +21,3 @@ export async function action({ request }: ActionArgs) {
     }),
   });
 }
-
-// TODO: 배포, 탭 전환하면 똑같은거 다시 오는 거...?????????
