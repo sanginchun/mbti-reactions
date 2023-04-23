@@ -1,6 +1,8 @@
 import type { ActionArgs } from '@remix-run/node';
 import { PROMPT } from '~/config';
 
+export const config = { runtime: 'edge' };
+
 export async function action({ request }: ActionArgs) {
   const data = await request.json();
 
