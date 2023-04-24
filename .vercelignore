@@ -1,5 +1,0 @@
-.cache
-.env
-.vercel
-build
-public/build
