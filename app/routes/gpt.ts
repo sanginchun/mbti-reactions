@@ -1,8 +1,9 @@
+import type { ActionArgs } from '@vercel/remix';
 import { PROMPT } from '~/config';
 
 export const config = { runtime: 'edge' };
 
-export default async function (request: Request) {
+export async function action({ request }: ActionArgs) {
   const data = await request.json();
 
   return fetch('https://api.openai.com/v1/chat/completions', {
