@@ -8,6 +8,7 @@ import {
   ScrollRestoration,
 } from '@remix-run/react';
 import tailwindCss from '~/tailwind.css';
+import { Analytics } from '@vercel/analytics/react';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -47,6 +48,7 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <Analytics />
       </body>
     </html>
   );
