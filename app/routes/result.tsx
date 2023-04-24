@@ -1,5 +1,5 @@
-import type { ActionArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
+import type { ActionArgs } from '@vercel/remix';
+import { json } from '@vercel/remix';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { Link, useActionData, useNavigate } from '@remix-run/react';
 import { useState, useEffect, useRef } from 'react';
