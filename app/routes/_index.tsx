@@ -1,9 +1,4 @@
-import type { V2_MetaFunction } from '@vercel/remix';
 import { Form } from '@remix-run/react';
-
-export const meta: V2_MetaFunction = () => {
-  return [{ title: 'MBTI별 반응😆' }];
-};
 
 export default function Index() {
   return (
