@@ -134,12 +134,17 @@ export default function Result() {
         }}
       />
       {isDone && (
-        <Link
-          to="/"
-          className="block w-32 p-3 mt-10 mx-auto rounded bg-sky-500 text-white"
-        >
-          다시 해보기
-        </Link>
+        <>
+          <Link
+            to="/"
+            className="block w-32 p-3 mt-10 mx-auto rounded bg-sky-500 text-white"
+          >
+            다시 해보기
+          </Link>
+          <p className="mt-12 px-4 text-gray-400 text-sm">
+            답변이 실시간으로 생성되기 때문에 매번 달라질 수 있어요🙂
+          </p>
+        </>
       )}
     </main>
   );
