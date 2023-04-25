@@ -62,10 +62,10 @@ export default function Result() {
     return (
       <main className="max-w-lg min-h-screen h-full mx-auto py-32 text-center font-mono bg-neutral-50">
         <h1 className="font-semibold text-xl px-4">입력한 메시지가 없어요!</h1>
-        <h2 className="mt-16 text-gray-600 text-lg">
+        <h2 className="mt-16 text-gray-700 text-lg">
           "시험 끝나고 놀러가자"에 대한 결과를 보고 싶다면?👇
         </h2>
-        <ul className="mt-5 px-4 sm:px-12 text-gray-500 text-left text-sm">
+        <ul className="mt-5 px-4 sm:px-12 text-gray-600 text-left text-sm">
           <li className="mb-1">ISTJ: 그 전에 계획을 먼저 세워야지.</li>
           <li className="mb-1">ISTP: 그래, 놀러 갈까?</li>
           <li className="mb-1">ISFJ: 그래도 일정을 빨리 마치고 싶어.</li>
@@ -99,7 +99,7 @@ export default function Result() {
         </ul>
         <Link
           to="/"
-          className="block w-32 p-3 mt-10 mx-auto rounded bg-sky-500 text-white"
+          className="block w-32 p-3 mt-10 mx-auto rounded bg-blue-500 text-white"
         >
           다시 해보기
         </Link>
@@ -116,7 +116,7 @@ export default function Result() {
       </h1>
       {!isDone && (
         <button
-          className="w-32 p-3 my-5 rounded bg-sky-500 text-white"
+          className="w-32 p-3 my-5 rounded bg-blue-500 text-white"
           onClick={handleCancelButtonClick}
         >
           취소
@@ -137,11 +137,11 @@ export default function Result() {
         <>
           <Link
             to="/"
-            className="block w-32 p-3 mt-10 mx-auto rounded bg-sky-500 text-white"
+            className="block w-32 p-3 mt-10 mx-auto rounded bg-blue-500 text-white"
           >
             다시 해보기
           </Link>
-          <p className="mt-12 px-4 text-gray-400 text-sm">
+          <p className="mt-12 px-4 text-gray-500 text-sm">
             답변이 실시간으로 생성되기 때문에 매번 달라질 수 있어요🙂
           </p>
         </>

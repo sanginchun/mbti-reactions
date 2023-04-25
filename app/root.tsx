@@ -16,12 +16,12 @@ export const meta: V2_MetaFunction = () => {
       title: 'MBTI별 반응😆',
     },
     {
-      property: 'og:title',
-      content: 'MBTI별 반응😆',
+      name: 'description',
+      content: '~라고 했을 때 MBTI별 반응보기ㅋㅋ',
     },
     {
-      property: 'description',
-      content: '~라고 했을 때 MBTI별 반응보기ㅋㅋ',
+      property: 'og:title',
+      content: 'MBTI별 반응😆',
     },
     {
       property: 'og:description',
