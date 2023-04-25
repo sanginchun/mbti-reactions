@@ -1,25 +1,30 @@
 import type { LoaderArgs } from '@vercel/remix';
 import { json } from '@vercel/remix';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
-import { Link, useLoaderData, useNavigate } from '@remix-run/react';
+import { Link, useLoaderData } from '@remix-run/react';
 import { useState, useEffect, useRef } from 'react';
 
 export const loader = async ({ request }: LoaderArgs) => {
   const message = new URL(request.url).searchParams.get('message');
+  const isMessageInvalid =
+    message === null || message.length < 5 || message.length > 30;
 
-  return json({ message });
+  if (isMessageInvalid) {
+    return json({ message: '', error: 'message' });
+  }
+
+  return json({ message, error: null });
 };
 
 export default function Result() {
-  const loaderData = useLoaderData<typeof loader>();
-  const navigate = useNavigate();
+  const { message, error } = useLoaderData<typeof loader>();
   const [reactions, setReactions] = useState('');
   const isFetchStarted = useRef(false);
   const ctrl = useRef(new AbortController());
   const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
-    if (loaderData.message === null || loaderData.message.length === 0) {
+    if (error || message.length === 0) {
       return;
     }
 
@@ -31,7 +36,7 @@ export default function Result() {
 
     fetchEventSource('/gpt', {
       method: 'POST',
-      body: JSON.stringify({ message: loaderData.message }),
+      body: JSON.stringify({ message }),
       signal: ctrl.current.signal,
       onmessage: ({ data }) => {
         if (data === '[DONE]') {
@@ -39,10 +44,10 @@ export default function Result() {
           return;
         }
 
-        const message = JSON.parse(data)?.choices?.[0]?.delta?.content;
+        const content = JSON.parse(data)?.choices?.[0]?.delta?.content;
 
-        if (typeof message === 'string') {
-          setReactions((prev) => prev + message);
+        if (typeof content === 'string') {
+          setReactions((prev) => prev + content);
         }
       },
       onerror: () => {
@@ -51,17 +56,19 @@ export default function Result() {
       },
       openWhenHidden: true,
     });
-  }, [loaderData.message, navigate]);
+  }, [error, message]);
 
   const handleCancelButtonClick = () => {
     ctrl.current.abort();
     setIsDone(true);
   };
 
-  if (loaderData.message === null) {
+  if (error) {
     return (
       <main className="max-w-lg min-h-screen h-full mx-auto py-32 text-center font-mono bg-neutral-50">
-        <h1 className="font-semibold text-xl px-4">입력한 메시지가 없어요!</h1>
+        <h1 className="font-semibold text-xl px-4">
+          입력한 텍스트에 문제가 있어요!
+        </h1>
         <h2 className="mt-16 text-gray-700 text-lg">
           "시험 끝나고 놀러가자"에 대한 결과를 보고 싶다면?👇
         </h2>
@@ -110,9 +117,7 @@ export default function Result() {
   return (
     <main className="max-w-lg min-h-screen h-full mx-auto py-16 text-center font-mono bg-neutral-50">
       <h1 className="font-semibold text-xl px-4">
-        {isDone
-          ? `"${loaderData.message}"`
-          : `"${loaderData.message}"에 대한 답변 생성 중...`}
+        {isDone ? `"${message}"` : `"${message}"에 대한 답변 생성 중...`}
       </h1>
       {!isDone && (
         <button
