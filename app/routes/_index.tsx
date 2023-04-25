@@ -53,7 +53,7 @@ export default function Index() {
         <a className="text-gray-500 underline" href="https://chat.openai.com/">
           챗GPT
         </a>
-        로 유명한 OpenAI API를 사용하여 실시간으로 답변을 생성합니다.
+        로 유명한 OpenAI를 사용하여 실시간으로 답변을 생성합니다.
       </p>
       <p className="mt-4 px-4 text-gray-400 text-sm">
         입력한 텍스트는 인공지능 학습에{' '}
