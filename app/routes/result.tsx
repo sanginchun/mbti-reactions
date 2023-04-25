@@ -1,18 +1,17 @@
-import type { ActionArgs } from '@vercel/remix';
+import type { LoaderArgs } from '@vercel/remix';
 import { json } from '@vercel/remix';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
-import { Link, useActionData, useNavigate } from '@remix-run/react';
+import { Link, useLoaderData, useNavigate } from '@remix-run/react';
 import { useState, useEffect, useRef } from 'react';
 
-export const action = async ({ request }: ActionArgs) => {
-  const formData = await request.formData();
-  const message = (formData.get('message') as string) || '';
+export const loader = async ({ request }: LoaderArgs) => {
+  const message = new URL(request.url).searchParams.get('message');
 
   return json({ message });
 };
 
 export default function Result() {
-  const actionData = useActionData<typeof action>();
+  const loaderData = useLoaderData<typeof loader>();
   const navigate = useNavigate();
   const [reactions, setReactions] = useState('');
   const isFetchStarted = useRef(false);
@@ -20,8 +19,7 @@ export default function Result() {
   const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
-    if (actionData?.message === undefined || actionData.message.length === 0) {
-      navigate('/');
+    if (loaderData.message === null || loaderData.message.length === 0) {
       return;
     }
 
@@ -33,7 +31,7 @@ export default function Result() {
 
     fetchEventSource('/gpt', {
       method: 'POST',
-      body: JSON.stringify({ message: actionData.message }),
+      body: JSON.stringify({ message: loaderData.message }),
       signal: ctrl.current.signal,
       onmessage: ({ data }) => {
         if (data === '[DONE]') {
@@ -53,23 +51,68 @@ export default function Result() {
       },
       openWhenHidden: true,
     });
-  }, [actionData?.message, navigate]);
+  }, [loaderData.message, navigate]);
 
   const handleCancelButtonClick = () => {
     ctrl.current.abort();
     setIsDone(true);
   };
 
-  if (actionData === undefined) {
-    return null;
+  if (loaderData.message === null) {
+    return (
+      <main className="max-w-lg min-h-screen h-full mx-auto py-32 text-center font-mono bg-neutral-50">
+        <h1 className="font-semibold text-xl px-4">입력한 메시지가 없어요!</h1>
+        <h2 className="mt-16 text-gray-600 text-lg">
+          "시험 끝나고 놀러가자"에 대한 결과를 보고 싶다면?👇
+        </h2>
+        <ul className="mt-5 px-4 sm:px-12 text-gray-500 text-left text-sm">
+          <li className="mb-1">ISTJ: 그 전에 계획을 먼저 세워야지.</li>
+          <li className="mb-1">ISTP: 그래, 놀러 갈까?</li>
+          <li className="mb-1">ISFJ: 그래도 일정을 빨리 마치고 싶어.</li>
+          <li className="mb-1">
+            ISFP: 오늘은 날씨가 좋은데, 바다가 좋을 것 같아.
+          </li>
+          <li className="mb-1">
+            INFJ: 어디 가면 좋을까 고민 중이었는데, 좋아!
+          </li>
+          <li className="mb-1">INFP: 놀러 가면서 새로운 경험도 해보고 싶어.</li>
+          <li className="mb-1">
+            INTJ: 놀러 가기 전에 먼저 시간을 관리해야겠어.
+          </li>
+          <li className="mb-1">
+            INTP: 놀러 가면서 새로운 아이디어도 생각해보자.
+          </li>
+          <li className="mb-1">ESTJ: 놀러 가기 전에 일정을 먼저 정리해야지.</li>
+          <li className="mb-1">ESTP: 그래, 놀러 갈까? 어디 가면 좋을까?</li>
+          <li className="mb-1">ESFJ: 다 같이 놀러 가면서 친목도 다지자.</li>
+          <li className="mb-1">ESFP: 와! 놀러 가는 거 어디 가면 좋을까?</li>
+          <li className="mb-1">
+            ENFJ: 다 같이 놀러 가면서 서로의 이야기도 들어보자.
+          </li>
+          <li className="mb-1">
+            ENFP: 와! 놀러 가는 거 어디 가면 좋을까? 재밌겠다!
+          </li>
+          <li className="mb-1">ENTJ: 놀러 가기 전에 계획을 먼저 세워야겠어.</li>
+          <li className="mb-1">
+            ENTP: 놀러 가면서 새로운 아이디어도 생각해보자.
+          </li>
+        </ul>
+        <Link
+          to="/"
+          className="block w-32 p-3 mt-10 mx-auto rounded bg-sky-500 text-white"
+        >
+          다시 해보기
+        </Link>
+      </main>
+    );
   }
 
   return (
     <main className="max-w-lg min-h-screen h-full mx-auto py-16 text-center font-mono bg-neutral-50">
       <h1 className="font-semibold text-xl px-4">
         {isDone
-          ? `"${actionData?.message}"`
-          : `"${actionData?.message}"에 대한 답변 생성 중...`}
+          ? `"${loaderData.message}"`
+          : `"${loaderData.message}"에 대한 답변 생성 중...`}
       </h1>
       {!isDone && (
         <button
@@ -86,7 +129,7 @@ export default function Result() {
             .split('-')
             .map((v) => v.trim())
             .filter((v) => v.length)
-            .map((v) => `<li style="margin-bottom:0.7rem">${v}</li>`)
+            .map((v) => `<li style="margin-bottom:0.5rem">${v}</li>`)
             .join(''),
         }}
       />

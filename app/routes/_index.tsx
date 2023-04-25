@@ -6,7 +6,6 @@ export default function Index() {
       <h1 className="font-semibold text-4xl">MBTI별 반응보기😆</h1>
       <Form
         reloadDocument
-        method="post"
         action="/result"
         autoComplete="off"
         spellCheck="false"
