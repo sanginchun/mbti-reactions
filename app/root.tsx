@@ -49,6 +49,11 @@ export default function App() {
         <Scripts />
         <LiveReload />
         <Analytics />
+        <script
+          type="text/javascript"
+          src="//t1.daumcdn.net/kas/static/ba.min.js"
+          async
+        ></script>
       </body>
     </html>
   );

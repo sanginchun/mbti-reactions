@@ -31,7 +31,7 @@ export default function Index() {
       </Form>
       <p className="mt-5 text-gray-500">최소 5자, 최대 30자</p>
       <h2 className="mt-16 text-gray-700 text-lg">결과는 이렇게 나와요👇</h2>
-      <ul className="mt-5 px-4 sm:px-12 text-gray-600 text-left text-sm">
+      <ul className="mt-5 mb-6 px-4 sm:px-12 text-gray-600 text-left text-sm">
         <li className="mb-1">ISTJ: 돈을 아끼세요.</li>
         <li className="mb-1">ISTP: 뭐 샀어?</li>
         <li className="mb-1">ISFJ: 쇼핑으로 기분 좋아졌어?</li>
@@ -49,6 +49,13 @@ export default function Index() {
         <li className="mb-1">ENTJ: 쇼핑은 시간 낭비야. 일해라.</li>
         <li className="mb-1">ENTP: 쇼핑하면서 뭐 샀어? 얼마나 샀어?</li>
       </ul>
+      <ins
+        className="kakao_ad_area"
+        style={{ display: 'none' }}
+        data-ad-unit="DAN-BTCY90zv0PdMky8Z"
+        data-ad-width="320"
+        data-ad-height="100"
+      ></ins>
       <p className="mt-12 px-4 text-gray-500 text-sm">
         <a className="text-gray-600 underline" href="https://chat.openai.com/">
           챗GPT
