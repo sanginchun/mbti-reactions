@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react';
+import { useEffect } from 'react';
 import tailwindCss from '~/tailwind.css';
 import { Analytics } from '@vercel/analytics/react';
 
@@ -35,6 +36,20 @@ export const links: LinksFunction = () => [
 ];
 
 export default function App() {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const body = document.getElementsByTagName('body')[0];
+
+      if (body) {
+        const script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('src', '//t1.daumcdn.net/kas/static/ba.min.js');
+        script.setAttribute('async', '');
+
+        body.appendChild(script);
+      }
+    }
+  }, []);
   return (
     <html lang="ko">
       <head>
@@ -49,11 +64,6 @@ export default function App() {
         <Scripts />
         <LiveReload />
         <Analytics />
-        <script
-          type="text/javascript"
-          src="//t1.daumcdn.net/kas/static/ba.min.js"
-          async
-        ></script>
       </body>
     </html>
   );
