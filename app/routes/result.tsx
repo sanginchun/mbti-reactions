@@ -123,19 +123,20 @@ export default function Result() {
 
   return (
     <main className="relative max-w-lg min-h-screen h-full mx-auto pt-12 pb-[120px] text-center font-mono bg-neutral-50">
-      <h1 className="font-semibold text-xl px-4">
-        {isDone ? `"${message}"` : `"${message}"에 대한 답변 생성 중...`}
-      </h1>
+      <h1 className="font-semibold text-xl px-4">{message}</h1>
       {!isDone && (
-        <button
-          className="w-32 p-3 my-5 rounded bg-blue-500 text-white"
-          onClick={handleCancelButtonClick}
-        >
-          취소
-        </button>
+        <>
+          <p className="my-2 text-md">에 대한 답변 생성 중...</p>
+          <button
+            className="w-32 p-3 my-5 rounded bg-blue-500 text-white"
+            onClick={handleCancelButtonClick}
+          >
+            취소
+          </button>
+        </>
       )}
       <ul
-        className="h-full mt-5 px-4 sm:px-12 text-left text-sm"
+        className="h-full mt-5 px-3 sm:px-12 text-left text-sm"
         dangerouslySetInnerHTML={{
           __html: reactions
             .split('-')
